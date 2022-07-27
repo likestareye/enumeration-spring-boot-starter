@@ -1,0 +1,67 @@
+{
+  "groups": [
+    {
+      "name": "stareye.enumeration.container",
+      "type": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationContainerProperties",
+      "sourceType": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationContainerProperties"
+    },
+    {
+      "name": "stareye.enumeration.serialization",
+      "type": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationSerializationProperties",
+      "sourceType": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationSerializationProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "stareye.enumeration.container.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用enumeration-container自动配置.",
+      "sourceType": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationContainerProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "stareye.enumeration.container.scans",
+      "type": "java.util.List<java.lang.String>",
+      "description": "enumeration所处的包, 主要用于容器化配置.",
+      "sourceType": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationContainerProperties",
+      "defaultValue": []
+    },
+    {
+      "name": "stareye.enumeration.serialization.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用enumeration-serialization自动配置.",
+      "sourceType": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationSerializationProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "stareye.enumeration.serialization.strategy",
+      "type": "cn.stareye.opensource.enumeration.std.serialization.EnumerationJsonStrategy",
+      "description": "enumeration的序列化\/反序列化策略.",
+      "sourceType": "cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationSerializationProperties",
+      "defaultValue": "NAME"
+    }
+  ],
+  "hints": [
+    {
+      "name": "stareye.enumeration.serialization.strategy",
+      "values": [
+        {
+          "value": "NAME",
+          "description": "以{@link Enumeration#name()}方法作为序列化和反序列化以及容器化特化标准."
+        },
+        {
+          "value": "ORDINAL",
+          "description": "以{@link Enumeration#ordinal()}方法作为序列化和反序列化以及容器化特化标准."
+        }
+      ],
+      "providers": [
+        {
+          "name": "handle-as",
+          "parameters": {
+            "target": "cn.stareye.opensource.enumeration.std.serialization.EnumerationJsonStrategy"
+          }
+        }
+      ]
+    }
+  ]
+}
