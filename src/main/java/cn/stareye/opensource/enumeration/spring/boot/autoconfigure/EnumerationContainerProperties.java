@@ -4,6 +4,7 @@ import cn.stareye.opensource.enumeration.std.EnumerationAttribute;
 import cn.stareye.opensource.enumeration.std.EnumerationException;
 import cn.stareye.opensource.enumeration.std.serialization.EnumerationJsonStrategy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.lang.NonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,11 +51,13 @@ public class EnumerationContainerProperties implements EnumerationAttribute {
         return enabled;
     }
 
+    @NonNull
     @Override
     public EnumerationJsonStrategy strategy() {
         throw EnumerationException.newEx("unsupported operation");
     }
 
+    @NonNull
     @Override
     public List<String> scans() {
         return scans;

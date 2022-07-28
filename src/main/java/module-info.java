@@ -24,5 +24,6 @@ module enumeration.spring.boot.starter {
     exports cn.stareye.opensource.enumeration.std.container;
     exports cn.stareye.opensource.enumeration.std.serialization;
     exports cn.stareye.opensource.enumeration.spring.boot.autoconfigure;
+    exports cn.stareye.opensource.enumeration.std.serialization.converter;
 
 }

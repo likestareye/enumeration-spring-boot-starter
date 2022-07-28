@@ -85,10 +85,10 @@ public class EnumerationJsonNameObjectDeserializer extends BaseEnumerationJsonDe
              *      "sex": "{\"name\":\"MALE\", \"ordinal\": 0, \"disName\": \"男\"}"
              *  }
              */
-            Map<String, Object> childMap = codec.readValue(name, new TypeReference<Map<String, Object>>() {
+            Map<String, Object> enumerationAttrMap = codec.readValue(name, new TypeReference<Map<String, Object>>() {
             });
-            if (childMap.containsKey(Enumeration.NAME_FIELD)) {
-                return childMap.get(Enumeration.NAME_FIELD).toString();
+            if (enumerationAttrMap.containsKey(Enumeration.NAME_FIELD)) {
+                return enumerationAttrMap.get(Enumeration.NAME_FIELD).toString();
             } else {
                 return name;
             }

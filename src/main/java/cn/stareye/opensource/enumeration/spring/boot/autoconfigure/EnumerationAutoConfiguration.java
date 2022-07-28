@@ -7,10 +7,16 @@ import cn.stareye.opensource.enumeration.std.container.EnumerationContainer;
 import cn.stareye.opensource.enumeration.std.container.EnumerationContainerEngine;
 import cn.stareye.opensource.enumeration.std.serialization.StandardEnumerationDeserializer;
 import cn.stareye.opensource.enumeration.std.serialization.StandardEnumerationSerializer;
+import cn.stareye.opensource.enumeration.std.serialization.converter.ComplexStringToEnumerationConverterFactory;
+import cn.stareye.opensource.enumeration.std.serialization.converter.PrimitiveIntToEnumerationConverterFactory;
+import cn.stareye.opensource.enumeration.std.serialization.converter.PrimitiveStringToEnumerationConverterFactory;
+import cn.stareye.opensource.enumeration.std.serialization.converter.StandardEnumerationConverter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,6 +24,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.converter.ConverterRegistry;
 import org.springframework.lang.NonNull;
 
 /**
@@ -35,11 +42,44 @@ public class EnumerationAutoConfiguration {
     @Import({StandardEnumerationSerializer.class, StandardEnumerationDeserializer.class})
     public static class SerializationAutoConfiguration {
 
+        private final ConverterRegistry converterRegistry;
+
+        private final ObjectMapper objectMapper;
+
+        private final EnumerationAttribute enumerationAttribute;
+
+        @Autowired
+        public SerializationAutoConfiguration(
+                @NonNull ConverterRegistry converterRegistry,
+                @NonNull ObjectMapper objectMapper,
+                @NonNull @Qualifier("stareye.enumeration.serialization-cn.stareye.opensource.enumeration.spring.boot.autoconfigure.EnumerationSerializationProperties") EnumerationAttribute enumerationAttribute
+        ) {
+            this.converterRegistry = converterRegistry;
+            this.objectMapper = objectMapper;
+            this.enumerationAttribute = enumerationAttribute;
+        }
+
         private static final Logger logger = LoggerFactory.getLogger(SerializationAutoConfiguration.class);
 
         @PostConstruct
         private void init() {
             logger.info("SerializationAutoConfiguration init...");
+            PrimitiveStringToEnumerationConverterFactory primitiveStringToEnumerationConverterFactory = new PrimitiveStringToEnumerationConverterFactory();
+            PrimitiveIntToEnumerationConverterFactory primitiveIntToEnumerationConverterFactory = new PrimitiveIntToEnumerationConverterFactory();
+            ComplexStringToEnumerationConverterFactory complexStringToEnumerationConverterFactory = new ComplexStringToEnumerationConverterFactory(
+                    this.objectMapper,
+                    this.enumerationAttribute,
+                    primitiveStringToEnumerationConverterFactory,
+                    primitiveIntToEnumerationConverterFactory
+            );
+            StandardEnumerationConverter converter = new StandardEnumerationConverter(
+                    this.objectMapper,
+                    complexStringToEnumerationConverterFactory,
+                    primitiveIntToEnumerationConverterFactory
+            );
+            converterRegistry.addConverter(converter);
+            converterRegistry.removeConvertible(String.class, Enum.class);
+            converterRegistry.removeConvertible(Integer.class, Enum.class);
         }
 
         @PreDestroy

@@ -85,10 +85,10 @@ public class EnumerationJsonOrdinalObjectDeserializer extends BaseEnumerationJso
              *      "sex": "{\"ordinal\": 0, \"name\":\"MALE\", \"disName\": \"男\"}"
              *  }
              */
-            Map<String, Object> childMap = codec.readValue(ordinal, new TypeReference<Map<String, Object>>() {
+            Map<String, Object> enumerationAttrMap = codec.readValue(ordinal, new TypeReference<Map<String, Object>>() {
             });
-            if (childMap.containsKey(Enumeration.ORDINAL_FIELD)) {
-                return Integer.valueOf(childMap.get(Enumeration.ORDINAL_FIELD).toString());
+            if (enumerationAttrMap.containsKey(Enumeration.ORDINAL_FIELD)) {
+                return Integer.valueOf(enumerationAttrMap.get(Enumeration.ORDINAL_FIELD).toString());
             } else {
                 return Integer.valueOf(ordinal);
             }

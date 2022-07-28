@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.lang.NonNull;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * {@link Enum}枚举类需要实现的接口，本项目所有的枚举相关特化操作均基于此接口实现.
  *
@@ -14,7 +17,7 @@ import org.springframework.lang.NonNull;
  */
 @JsonSerialize(using = StandardEnumerationSerializer.class)
 @JsonDeserialize(using = StandardEnumerationDeserializer.class)
-public interface Enumeration<E extends Enum<E>> {
+public interface Enumeration<E extends Enum<E> & Enumeration<E>> {
 
     /**
      * {@link Enum#name()}.
@@ -68,6 +71,21 @@ public interface Enumeration<E extends Enum<E>> {
             throw EnumerationException.newEx("The current implementing class is not an Enum, class:[{}]", this.getClass().getTypeName());
         }
         return (E) this;
+    }
+
+    /**
+     * 根据名称获取枚举.
+     * @param enumerationClass Class<E>.
+     * @param name name.
+     * @return E.
+     * @param <E> E extends Enum<E> & Enumeration<E>.
+     */
+    static <E extends Enum<E> & Enumeration<E>> E valueForName(Class<E> enumerationClass, String name) {
+        return Enum.valueOf(enumerationClass, name);
+    }
+
+    static <E extends Enum<E> & Enumeration<E>> E valueForOrdinal(Class<E> enumerationClass, int ordinal) {
+        return enumerationClass.getEnumConstants()[ordinal];
     }
 
 }

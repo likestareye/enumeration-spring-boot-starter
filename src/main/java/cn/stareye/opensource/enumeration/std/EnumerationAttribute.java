@@ -18,7 +18,6 @@ public interface EnumerationAttribute {
      *
      * @return boolean.
      */
-    @NonNull
     boolean enabled();
 
     /**
