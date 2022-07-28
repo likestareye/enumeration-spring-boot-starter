@@ -78,8 +78,6 @@ public class EnumerationAutoConfiguration {
                     primitiveIntToEnumerationConverterFactory
             );
             converterRegistry.addConverter(converter);
-            converterRegistry.removeConvertible(String.class, Enum.class);
-            converterRegistry.removeConvertible(Integer.class, Enum.class);
         }
 
         @PreDestroy
