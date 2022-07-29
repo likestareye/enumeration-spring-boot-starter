@@ -1,17 +1,13 @@
 package cn.stareye.opensource.enumeration.std.serialization.converter;
 
 import cn.stareye.opensource.enumeration.std.Enumeration;
-import cn.stareye.opensource.enumeration.std.EnumerationAttribute;
 import cn.stareye.opensource.enumeration.std.EnumerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.converter.ConverterFactory;
 import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.lang.NonNull;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -41,8 +37,7 @@ public class StandardEnumerationConverter implements GenericConverter {
     public Set<ConvertiblePair> getConvertibleTypes() {
         return Set.of(
                 new ConvertiblePair(Integer.class, Enumeration.class),
-                new ConvertiblePair(String.class, Enumeration.class),
-                new ConvertiblePair(Map.class, Enumeration.class)
+                new ConvertiblePair(String.class, Enumeration.class)
         );
     }
 
@@ -56,8 +51,6 @@ public class StandardEnumerationConverter implements GenericConverter {
                 return this.primitiveIntToEnumerationConverterFactory.getConverter((Class<? extends Enumeration>) targetType.getType()).convert((Integer) source);
             } else if (String.class.isAssignableFrom(sourceType.getType())) {
                 return this.complexStringToEnumerationConverterFactory.getConverter((Class<? extends Enumeration>) targetType.getType()).convert((String) source);
-            } else if (Map.class.isAssignableFrom(sourceType.getType())) {
-                return this.complexStringToEnumerationConverterFactory.getConverter((Class<? extends Enumeration>) targetType.getType()).convert(this.objectMapper.writeValueAsString(source));
             } else {
                 throw EnumerationException.newEx("Unable to convert {} to Enumeration", this.objectMapper.writeValueAsString(source));
             }

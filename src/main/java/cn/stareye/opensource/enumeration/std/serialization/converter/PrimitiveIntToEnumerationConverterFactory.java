@@ -1,8 +1,6 @@
 package cn.stareye.opensource.enumeration.std.serialization.converter;
 
 import cn.stareye.opensource.enumeration.std.Enumeration;
-import cn.stareye.opensource.enumeration.std.EnumerationAttribute;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 import org.springframework.lang.NonNull;
