@@ -75,7 +75,7 @@ public class ComplexStringToEnumerationConverterFactory implements ConverterFact
                 @NonNull PrimitiveIntToEnumerationConverterFactory primitiveIntToEnumerationConverterFactory,
                 @NonNull ObjectMapper objectMapper,
                 @NonNull EnumerationAttribute enumerationAttribute
-                ) {
+        ) {
             this.enumerationClass = enumerationClass;
             this.primitiveStringToEnumerationConverterFactory = primitiveStringToEnumerationConverterFactory;
             this.primitiveIntToEnumerationConverterFactory = primitiveIntToEnumerationConverterFactory;

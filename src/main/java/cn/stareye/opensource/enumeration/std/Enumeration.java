@@ -6,9 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.lang.NonNull;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 /**
  * {@link Enum}枚举类需要实现的接口，本项目所有的枚举相关特化操作均基于此接口实现.
  *
@@ -75,10 +72,11 @@ public interface Enumeration<E extends Enum<E> & Enumeration<E>> {
 
     /**
      * 根据名称获取枚举.
+     *
      * @param enumerationClass Class<E>.
-     * @param name name.
+     * @param name             name.
+     * @param <E>              E extends Enum<E> & Enumeration<E>.
      * @return E.
-     * @param <E> E extends Enum<E> & Enumeration<E>.
      */
     static <E extends Enum<E> & Enumeration<E>> E valueForName(Class<E> enumerationClass, String name) {
         return Enum.valueOf(enumerationClass, name);
